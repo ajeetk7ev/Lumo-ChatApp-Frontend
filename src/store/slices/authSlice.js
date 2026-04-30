@@ -1,8 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const getSafeUser = () => {
+    try {
+        const user = localStorage.getItem("user");
+        if (!user || user === "undefined") return null;
+        return JSON.parse(user);
+    } catch (error) {
+        return null;
+    }
+};
+
 const initialState = {
-    user: JSON.parse(localStorage.getItem("user")) || null,
-    isAuthenticated: !!localStorage.getItem("user"),
+    user: getSafeUser(),
+    isAuthenticated: !!getSafeUser(),
     loading: false,
     error: null,
 };

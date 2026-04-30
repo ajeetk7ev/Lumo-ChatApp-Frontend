@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
+import Home from "./pages/Home";
 import { Toaster } from "react-hot-toast";
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
         />
         <Route 
           path="/" 
-          element={isAuthenticated ? <div>Home (Chat Interface)</div> : <Navigate to="/login" />} 
+          element={isAuthenticated ? <Home /> : <Navigate to="/login" />} 
         />
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" />} />
