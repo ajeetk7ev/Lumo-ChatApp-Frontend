@@ -9,7 +9,7 @@ import { setAuth, setLoading, setError } from "../../store/slices/authSlice";
 
 const Login = () => {
     const [formData, setFormData] = useState({
-        email: "",
+        identifier: "",
         password: "",
     });
     const [showPassword, setShowPassword] = useState(false);
@@ -23,7 +23,7 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!formData.email || !formData.password) {
+        if (!formData.identifier || !formData.password) {
             return toast.error("Please fill in all fields");
         }
 
@@ -115,15 +115,15 @@ const Login = () => {
 
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-gray-400 ml-1">Email</label>
+                            <label className="text-sm font-medium text-gray-400 ml-1">Email or Username</label>
                             <div className="relative group">
                                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-blue-500 transition-colors" />
                                 <input
-                                    type="email"
-                                    name="email"
-                                    value={formData.email}
+                                    type="text"
+                                    name="identifier"
+                                    value={formData.identifier}
                                     onChange={handleChange}
-                                    placeholder="hello@lumo.com"
+                                    placeholder="Email or username"
                                     className="w-full bg-[#111] border border-white/5 rounded-2xl py-4 pl-12 pr-4 text-white placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all"
                                     required
                                 />
