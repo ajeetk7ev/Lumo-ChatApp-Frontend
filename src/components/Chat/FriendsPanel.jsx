@@ -4,9 +4,11 @@ import { useSelector, useDispatch } from "react-redux";
 import friendsService from "../../services/friends.api";
 import { setFriends, setPendingRequests, addFriend, removePendingRequest } from "../../store/slices/friendSlice";
 import { toast } from "react-hot-toast";
+import AddFriendModal from "./AddFriendModal";
 
 const FriendsPanel = () => {
     const [searchQuery, setSearchQuery] = useState("");
+    const [isAddFriendModalOpen, setIsAddFriendModalOpen] = useState(false);
     const { friends, pendingRequests } = useSelector((state) => state.friend);
     const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
@@ -53,7 +55,10 @@ const FriendsPanel = () => {
             <div className="p-6 flex-1 flex flex-col overflow-hidden">
                 <div className="flex items-center justify-between mb-6">
                     <h1 className="text-2xl font-bold text-white">Friends</h1>
-                    <button className="p-2 bg-blue-600/10 text-blue-500 rounded-lg hover:bg-blue-600/20 transition-all">
+                    <button 
+                        onClick={() => setIsAddFriendModalOpen(true)}
+                        className="p-2 bg-blue-600/10 text-blue-500 rounded-lg hover:bg-blue-600/20 transition-all"
+                    >
                         <UserPlus className="w-5 h-5" />
                     </button>
                 </div>
@@ -139,6 +144,11 @@ const FriendsPanel = () => {
                     )}
                 </div>
             </div>
+
+            <AddFriendModal 
+                open={isAddFriendModalOpen} 
+                onOpenChange={setIsAddFriendModalOpen} 
+            />
         </div>
     );
 };

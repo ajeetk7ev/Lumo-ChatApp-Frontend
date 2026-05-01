@@ -25,6 +25,11 @@ const friendsService = {
         const response = await API.post(`/friends/reject/${requestId}`);
         return response.data;
     },
+
+    searchUsers: async (query) => {
+        const response = await API.get(`/friends/search?query=${query}`);
+        return response.data;
+    },
 };
 
 export default friendsService;
