@@ -60,7 +60,7 @@ const Home = () => {
             <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
             
             {activeTab === "chats" && <ChatsPanel />}
-            {activeTab === "friends" && <FriendsPanel />}
+            {activeTab === "friends" && <FriendsPanel setActiveTab={setActiveTab} />}
             {activeTab === "profile" && (
                 <div className="w-[350px] border-r border-white/5 flex items-center justify-center text-gray-500">
                     Profile Panel (Coming Soon)

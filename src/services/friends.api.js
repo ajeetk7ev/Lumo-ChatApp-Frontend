@@ -26,8 +26,8 @@ const friendsService = {
         return response.data;
     },
 
-    searchUsers: async (query) => {
-        const response = await API.get(`/friends/search?query=${query}`);
+    searchUsers: async (query = "", page = 1, limit = 20) => {
+        const response = await API.get(`/friends/search?query=${query}&page=${page}&limit=${limit}`);
         return response.data;
     },
 };

@@ -16,7 +16,16 @@ const friendSlice = createSlice({
             state.pendingRequests = action.payload;
         },
         addFriend: (state, action) => {
-            state.friends.push(action.payload);
+            const exists = state.friends.find(f => f._id === action.payload._id);
+            if (!exists) {
+                state.friends.push(action.payload);
+            }
+        },
+        addPendingRequest: (state, action) => {
+            const exists = state.pendingRequests.find(r => r._id === action.payload._id);
+            if (!exists) {
+                state.pendingRequests.push(action.payload);
+            }
         },
         removePendingRequest: (state, action) => {
             state.pendingRequests = state.pendingRequests.filter(r => r._id !== action.payload);
@@ -24,5 +33,12 @@ const friendSlice = createSlice({
     },
 });
 
-export const { setFriends, setPendingRequests, addFriend, removePendingRequest } = friendSlice.actions;
+export const { 
+    setFriends, 
+    setPendingRequests, 
+    addFriend, 
+    addPendingRequest,
+    removePendingRequest 
+} = friendSlice.actions;
+
 export default friendSlice.reducer;
