@@ -10,31 +10,48 @@ import {
 import EmojiPicker from "emoji-picker-react";
 import { useDispatch, useSelector } from "react-redux";
 import chatService from "../../services/chat.api";
-import { addMessage } from "../../store/slices/chatSlice";
+import { addMessage, removeMessage } from "../../store/slices/chatSlice";
 import { toast } from "react-hot-toast";
 
 const ChatInput = () => {
     const [content, setContent] = useState("");
     const [showEmoji, setShowEmoji] = useState(false);
     const { activeConversation } = useSelector((state) => state.chat);
+    const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
 
     const handleSend = async (e) => {
         e.preventDefault();
         if (!content.trim() || !activeConversation) return;
 
-        const messageData = {
+        const tempId = `temp-${Date.now()}`;
+        const tempMessage = {
+            _id: tempId,
             conversationId: activeConversation._id,
+            sender: user,
             content: content.trim(),
+            status: "sending",
+            createdAt: new Date().toISOString(),
         };
 
+        // Optimistic update
+        dispatch(addMessage(tempMessage));
+        setContent("");
+        setShowEmoji(false);
+
         try {
+            const messageData = {
+                conversationId: activeConversation._id,
+                content: tempMessage.content,
+            };
             const data = await chatService.sendMessage(messageData);
+            
+            // Remove temp message and add real one
+            dispatch(removeMessage(tempId));
             dispatch(addMessage(data.data));
-            setContent("");
-            setShowEmoji(false);
         } catch (error) {
             toast.error("Failed to send message");
+            dispatch(removeMessage(tempId));
         }
     };
 

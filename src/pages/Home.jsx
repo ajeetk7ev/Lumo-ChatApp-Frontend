@@ -23,13 +23,17 @@ const Home = () => {
                 dispatch(setOnlineUsers(users));
             });
 
-            socket.on("newMessage", (message) => {
+            socket.on("chat:message", (message) => {
                 // If the message is for the active conversation, add it to state
-                if (activeConversation?._id === message.conversation) {
+                if (activeConversation?._id === message.conversationId) {
                     dispatch(addMessage(message));
                 }
                 // Refresh conversation list to show last message/unread count
                 fetchConversations();
+            });
+
+            socket.on("chat:seen", ({ conversationId, seenBy }) => {
+                // Potential UI update for read receipts
             });
 
             socket.on("typing", ({ conversationId, isTyping }) => {
@@ -37,6 +41,9 @@ const Home = () => {
             });
 
             return () => {
+                socket.off("chat:message");
+                socket.off("chat:seen");
+                socket.off("typing");
                 disconnectSocket();
             };
         }
